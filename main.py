@@ -9,6 +9,14 @@ db = SQLAlchemy(app)
 
 class Task(db.Model):
 
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120))
+
+    def __init__(self, name):
+        self.name = name 
+
+        
+
 tasks = []
 
 @app.route('/', methods=['POST', 'GET'])
