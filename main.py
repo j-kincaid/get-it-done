@@ -15,7 +15,7 @@ class Task(db.Model):
     def __init__(self, name):
         self.name = name 
 
-        
+
 
 tasks = []
 
@@ -29,4 +29,5 @@ def index():
     return render_template('todos.html',title="Get It Done!", tasks=tasks)
 
 
+if __name__ == '__main__':
 app.run()
