@@ -45,6 +45,6 @@ def index():
 
     return render_template('todos.html',title="Get It Done!", tasks=tasks)
 
-
+# Shield the app.run() file
 if __name__ == '__main__':
-app.run()
+    app.run()
