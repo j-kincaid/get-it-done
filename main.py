@@ -10,6 +10,7 @@ db = SQLAlchemy(app)
 
 class Task(db.Model):
 # Specify data fields that go into the class, in columns
+# tasks = Task.query.all()
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
