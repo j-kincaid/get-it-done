@@ -19,21 +19,6 @@ class Task(db.Model):
     def __init__(self, name):
         self.name = name 
 
-# def email_valid(email):
-#     if not @ in email:
-#         return False
-
-#     if len(email) <= 4:
-#         return False
-
-#     if not ('.' in email):
-#         return False
-
-#     if ' ' in email:
-#         return False
-
-#     return True
-
 
 tasks = []
 
