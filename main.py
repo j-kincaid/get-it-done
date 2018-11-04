@@ -8,10 +8,14 @@ app.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(app)
 
-class Task(db.Model):
-# Specify data fields that go into the class, in columns
-# tasks = Task.query.all()
+# class extends the db.Model object
 
+# Specify data fields that go into the class, in columns
+# in Terminal write: tasks = Task.query.all()
+
+class Task(db.Model):
+
+# Every class has a primary key
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
 
