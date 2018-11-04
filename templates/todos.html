@@ -17,7 +17,7 @@
     <p>No tasks yet</p>
     {% else %}
 
-        <ul>
+        <ul style="list-style:none;">
             {% for task in tasks %}
             <li>{{task.name}}
                 <form method="POST" action="/delete-task" style="display:inline-block;">
