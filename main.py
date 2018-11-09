@@ -83,7 +83,7 @@ def index():
         db.session.commit() # commit it to the db
 
     tasks = Task.query.filter_by(completed=False).all() 
-    # only give me the tasks for which the completed columnhas the value False
+    # only give me the tasks for which the completed column has the value False
     completed_tasks = Task.query.filter_by(completed=True).all()
     return render_template('todos.html',title="Get It Done!", tasks=tasks, completed_tasks=completed_tasks)
 
