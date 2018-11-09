@@ -41,7 +41,7 @@ def login():
         password = request.form['password']
         user = User.query.filter_by(email=email).first()
         if user and user.password == password:
-            # TODO - "remember" that the user has logged in
+            # The session "remembers that the user has logged in"
             session['email'] = email
             flash("Logged in")
             return redirect('/') # If we're not rendering a template the flash message uses the session object to store the message for the next time the user comes back. 
@@ -67,6 +67,7 @@ def register():
             db.session.add(new_user)
             db.session.commit()
             # TODO - remember the user
+            session['email'] = email
             return redirect('/')
         else:
             # TODO - better response message
