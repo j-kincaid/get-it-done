@@ -64,9 +64,13 @@ def register():
             new_user = User(email, password)
             db.session.add(new_user)
             db.session.commit()
+            # TODO - remember the user
+            return redirect('/')
         else:
             # TODO - better response message
-            return "<h1>User already exists</h1>"
+            return "<h1>Duplicate User</h1>"
+
+    return render_template('register.html')
 
 
 @app.route('/', methods=['POST', 'GET'])
