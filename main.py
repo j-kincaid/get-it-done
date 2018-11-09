@@ -6,6 +6,8 @@ app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://get-it-done:greenenchiladas@localhost:8889/get-it-done'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
+# The secret key sets security. It can be a random string.
+app.secret_key = 'nGl3C5fQyD45'
 
 # (flask-env) $ python
 # from main import db, Blog
@@ -34,11 +36,10 @@ class User(db.Model):
 
 @app.before_request #Check for the user's email
 def require_login():
-    if 'email' not in session:
-        
-
-
-
+    allowed_routes = [ 'login', 'register']
+    if request.endpoint not in allowed_routes and 'email' not in session: # If the user's not logged in, or registered,
+        # return them to the login page. 
+        return redirect('/login')
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -48,7 +49,7 @@ def login():
         password = request.form['password']
         user = User.query.filter_by(email=email).first()
         if user and user.password == password:
-            # The session "remembers that the user has logged in"
+            # The session is an object dictionary that "remembers that the user has logged in"
             session['email'] = email
             flash("Logged in")
             return redirect('/') # If we're not rendering a template the flash message uses the session object to store the message for the next time the user comes back. 
