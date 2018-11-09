@@ -44,10 +44,10 @@ def login():
             # TODO - "remember" that the user has logged in
             session['email'] = email
             flash("Logged in")
-            return redirect('/')
+            return redirect('/') # If we're not rendering a template the flash message uses the session object to store the message for the next time the user comes back. 
         else:
             # TODO - explain why login failed
-            return '<h1>Error!</h1>'
+            flash('User password incorrect, or user does not exist')
 
     return render_template('login.html')
 
