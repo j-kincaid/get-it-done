@@ -32,6 +32,13 @@ class User(db.Model):
         self.email = email
         self.password = password
 
+@app.before_request #Check for the user's email
+def require_login():
+    if 'email' not in session:
+        
+
+
+
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -74,6 +81,11 @@ def register():
             return "<h1>Duplicate User</h1>"
 
     return render_template('register.html')
+
+@app.route('/logout')
+def logout():
+    del session['email'] # When they log out, we take their email out of the session.
+    return redirect('/')
 
 
 @app.route('/', methods=['POST', 'GET'])
