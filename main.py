@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -42,6 +42,8 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and user.password == password:
             # TODO - "remember" that the user has logged in
+            session['email'] = email
+            flash("Logged in")
             return redirect('/')
         else:
             # TODO - explain why login failed
