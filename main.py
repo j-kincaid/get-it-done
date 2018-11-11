@@ -12,7 +12,7 @@ db = SQLAlchemy(app)
 # db.create_all()
 # db.session.commit()
 
-class Task(db.Model): # We added a new column:
+class Task(db.Model): # The columns in our table:
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
