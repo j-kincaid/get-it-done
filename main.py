@@ -7,11 +7,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://get-it-done:greenenchil
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 
-# (flask-env) $ python
-# from main import db, Blog
-# db.create_all()
-# db.session.commit()
-
 class Task(db.Model): # The columns in our table:
 
     id = db.Column(db.Integer, primary_key=True)
@@ -33,7 +28,7 @@ def index():
         db.session.commit() # commit it to the db
 
     tasks = Task.query.filter_by(completed=False).all() 
-    # only give me the tasks for which the completed columnhas the value False
+    # only give me the tasks for which the completed column has the value False
     completed_tasks = Task.query.filter_by(completed=True).all()
     return render_template('todos.html',title="Get It Done!", tasks=tasks, completed_tasks=completed_tasks)
 
