@@ -24,15 +24,34 @@ class Task(db.Model): # We added a new column:
         self.name = name
         self.completed = False
 
+# @app.route('/login')
+# def login():
+#     return render_template('login.html')
+
+# @app.route('/register')
+# def register():
+#     return render_template('register.html')
+
+
 class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True)
+    email = db.Column(db.String(120), unique=True) # User objects will be 
+    # unique. Every user gets a password
     password = db.Column(db.String(120))
 
+    # A constructor for the User class 
     def __init__(self, email, password):
         self.email = email
         self.password = password
+
+    # Generate the User table in SQLAlchemy.
+    # Initiate the database while in the python shell
+    # by adding a user like this:
+    #
+    # >>> new_user = User('4j.kincaid', 'petunia')
+    # >>> db.session.commit()
+
 
 @app.before_request #Check for the user's email
 def require_login():
