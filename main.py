@@ -63,12 +63,12 @@ def require_login():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    if request.method == 'POST':
+    if request.method == 'POST': # Check for the request type
         email = request.form['email']
         password = request.form['password']
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(email=email).first() # We can retieve the # user with a given email if they exist
         if user and user.password == password:
-            # The session is an object dictionary that "remembers that the user has logged in"
+            # The session is an object dictionary that "remembers" that the user has logged in
             session['email'] = email
             flash("Logged in")
             return redirect('/') # If we're not rendering a template the flash message uses the session object to store the message for the next time the user comes back. 
