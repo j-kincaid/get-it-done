@@ -10,7 +10,7 @@ db = SQLAlchemy(app)
 app.secret_key = 'nGl3C5fQyD45'
 
 # (flask-env) $ python
-# from main import db, Blog
+# from main import db, Task
 # db.create_all()
 # db.session.commit()
 
@@ -23,16 +23,7 @@ class Task(db.Model): # We added a new column:
     def __init__(self, name):
         self.name = name
         self.completed = False
-
-# @app.route('/login')
-# def login():
-#     return render_template('login.html')
-
-# @app.route('/register')
-# def register():
-#     return render_template('register.html')
-
-
+        
 class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
@@ -94,7 +85,7 @@ def register():
             db.session.add(new_user)
             db.session.commit()
             # TODO - remember the user
-            session['email'] = email
+            session['email'] = email # sessions allow you to store an entry in the framework as a key:value pair. If they're not logged in, we redirect them to the login page as above in require_login()
             return redirect('/')
         else:
             # TODO - better response message
