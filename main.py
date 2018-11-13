@@ -19,10 +19,12 @@ class Task(db.Model): # We added a new column:
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
     completed = db.Column(db.Boolean, default = False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, name):
+    def __init__(self, name, owner):
         self.name = name
         self.completed = False
+        self.owner = owner
         
 class User(db.Model):
 
@@ -30,6 +32,8 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True) # User objects will be 
     # unique. Every user gets a password
     password = db.Column(db.String(120))
+    tasks = db.relationship('Task', backref='owner')
+    # SQLAlchemy should populate the task class according to things specific to each user.
 
     # A constructor for the User class 
     def __init__(self, email, password):
@@ -103,13 +107,16 @@ def logout():
 @app.route('/', methods=['POST', 'GET'])
 def index():
 
+
+    owner = User.query.filter_by(email=session['email']).first()
+
     if request.method == 'POST':
         task_name = request.form['task']
-        new_task = Task(task_name) # Create a new task object
+        new_task = Task(task_name, owner) # Create a new task object
         db.session.add(new_task)
         db.session.commit() # commit it to the db
 
-    tasks = Task.query.filter_by(completed=False).all() 
+    tasks = Task.query.filter_by(completed=False, owner=owner).all() 
     # only give me the tasks for which the completed column has the value False
     completed_tasks = Task.query.filter_by(completed=True).all()
     return render_template('todos.html',title="Get It Done!", tasks=tasks, completed_tasks=completed_tasks)
