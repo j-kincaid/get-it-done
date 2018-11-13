@@ -2,6 +2,11 @@
 <html>
     <head>
         <title>{{title}}</title>
+        <style>
+            .error {
+                color: firebrick;
+            }
+        </style>
     </head>
 <body>
 
@@ -9,10 +14,11 @@
         <a href='/logout'>Log Out</a>
     </div>
 
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=True) %} 
+    <!-- These messages can be passed from one session to another -->
         <ul>
-        {% for message in messages %}
-            <li>{{message}}</li>
+        {% for category, message in messages %}
+            <li class="{{category}}">{{message}}</li>
         {% endfor %}
         </ul>
     {% endwith %}

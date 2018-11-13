@@ -61,11 +61,12 @@ def login():
         if user and user.password == password:
             # The session is an object dictionary that "remembers" that the user has logged in
             session['email'] = email
-            flash("Logged in")
+            flash("Logged in") # Message goes in a queue to go in base.html
+            print(session)
             return redirect('/') # If we're not rendering a template the flash message uses the session object to store the message for the next time the user comes back. 
         else:
             # TODO - explain why login failed
-            flash('User password incorrect, or user does not exist')
+            flash('User password incorrect, or user does not exist', 'error'), 
 
     return render_template('login.html')
 
