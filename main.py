@@ -1,5 +1,6 @@
-from flask import Flask, request, redirect, render_template, session, flash
+from flask import Flask, request, redirect, render_template, session, flash, make_response
 from flask_sqlalchemy import SQLAlchemy
+ 
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -19,12 +20,12 @@ class Task(db.Model): # We added a new column:
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
     completed = db.Column(db.Boolean, default = False)
-    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Links to the user table
 
-    def __init__(self, name, owner):
+    def __init__(self, name, owner): 
         self.name = name
         self.completed = False
-        self.owner = owner
+        self.owner = owner # Every owner is a user object
         
 class User(db.Model):
 
@@ -106,6 +107,11 @@ def logout():
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
+    
+
+###################_______________##################
+#### Where the new task (or new blog post) is created 
+###################_______________##################
 
 
     owner = User.query.filter_by(email=session['email']).first()
