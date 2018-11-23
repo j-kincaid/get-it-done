@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, session, flash, make_response
+from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
  
 
@@ -52,9 +52,9 @@ class User(db.Model):
 @app.before_request #Check for the user's email
 def require_login():
     allowed_routes = [ 'login', 'register']
-    if request.endpoint not in allowed_routes and 'email' not in session: # If the user's not logged in, or registered,
-        # return them to the login page. 
-        return redirect('/login')
+    print(session)
+    if request.endpoint not in allowed_routes and 'email' not in session: # If the user's not logged in, or registered, return them to the login page. 
+        return redirect('/login') # We only let them past if there is a value set for the session in email. 
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -104,10 +104,8 @@ def logout():
     del session['email'] # When they log out, we take their email out of the session.
     return redirect('/')
 
-
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    
 
 ###################_______________##################
 #### Where the new task (or new blog post) is created 
