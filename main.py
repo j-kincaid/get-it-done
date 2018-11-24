@@ -1,6 +1,6 @@
 from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
- 
+from hashUtils import make_pw_hash, check_pw_hash
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -32,14 +32,14 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True) # User objects will be 
     # unique. Every user gets a password
-    password = db.Column(db.String(120))
+    pw_hash = db.Column(db.String(120))
     tasks = db.relationship('Task', backref='owner')
     # SQLAlchemy should populate the task class according to things specific to each user.
 
     # A constructor for the User class 
     def __init__(self, email, password):
         self.email = email
-        self.password = password
+        self.pw_hash = make_pw_hash(password)
 
     # Generate the User table in SQLAlchemy.
     # Initiate the database while in the python shell
@@ -63,7 +63,7 @@ def login():
         email = request.form['email']
         password = request.form['password']
         user = User.query.filter_by(email=email).first() # We can retieve the # user with a given email if they exist
-        if user and user.password == password:
+        if user and check_pw_hash(password, user.pw_hash):
             # The session is an object dictionary that "remembers" that the user has logged in
             session['email'] = email
             flash("Logged in") # Message goes in a queue to go in base.html
